@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.lightingsummer.movie.userdal.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="club.lightingsummer.movie.userapi.po.User">
+    <id column="UUID" jdbcType="INTEGER" property="uuid" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_pwd" jdbcType="VARCHAR" property="userPwd" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="user_sex" jdbcType="INTEGER" property="userSex" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
+    <result column="biography" jdbcType="VARCHAR" property="biography" />
+    <result column="life_state" jdbcType="INTEGER" property="lifeState" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UUID, user_name, user_pwd, nick_name, user_sex, birthday, email, user_phone, address, 
+    head_url, biography, life_state, begin_time, update_time, salt
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where UUID = #{uuid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where UUID = #{uuid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="club.lightingsummer.movie.userapi.po.User">
+    insert into tb_user (UUID, user_name, user_pwd, 
+      nick_name, user_sex, birthday, 
+      email, user_phone, address, 
+      head_url, biography, life_state, 
+      begin_time, update_time, salt
+      )
+    values (#{uuid,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userPwd,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{userSex,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{headUrl,jdbcType=VARCHAR}, #{biography,jdbcType=VARCHAR}, #{lifeState,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{salt,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="club.lightingsummer.movie.userapi.po.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        UUID,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="userPwd != null">
+        user_pwd,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="headUrl != null">
+        head_url,
+      </if>
+      <if test="biography != null">
+        biography,
+      </if>
+      <if test="lifeState != null">
+        life_state,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null">
+        #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="biography != null">
+        #{biography,jdbcType=VARCHAR},
+      </if>
+      <if test="lifeState != null">
+        #{lifeState,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="club.lightingsummer.movie.userapi.po.User">
+    update tb_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPwd != null">
+        user_pwd = #{userPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="headUrl != null">
+        head_url = #{headUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="biography != null">
+        biography = #{biography,jdbcType=VARCHAR},
+      </if>
+      <if test="lifeState != null">
+        life_state = #{lifeState,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where UUID = #{uuid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="club.lightingsummer.movie.userapi.po.User">
+    update tb_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_pwd = #{userPwd,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      head_url = #{headUrl,jdbcType=VARCHAR},
+      biography = #{biography,jdbcType=VARCHAR},
+      life_state = #{lifeState,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      salt = #{salt,jdbcType=VARCHAR}
+    where UUID = #{uuid,jdbcType=INTEGER}
+  </update>
+</mapper>
