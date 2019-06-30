@@ -1,7 +1,7 @@
 package club.lightingsummer.movie.userapi.api;
 
 import club.lightingsummer.movie.userapi.bo.CommonResponse;
-import club.lightingsummer.movie.userapi.bo.UserInfoModel;
+import club.lightingsummer.movie.userapi.bo.UserModel;
 
 /**
  * @author     ：lightingSummer
@@ -10,8 +10,9 @@ import club.lightingsummer.movie.userapi.bo.UserInfoModel;
  */
 public interface UserLoginAPI {
 
-    CommonResponse login(String Name, String password);
+    CommonResponse login(String userName, String password);
 
-    CommonResponse register(UserInfoModel userInfoModel);
+    CommonResponse register(UserModel userModel);
+
 
 }

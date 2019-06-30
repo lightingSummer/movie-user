@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(User user) {
         return userMapper.insertSelective(user) == 1;
     }
+
+    @Override
+    public boolean updateUserInfo(User user) {
+        return userMapper.updateByPrimaryKeySelective(user) == 1;
+    }
 }

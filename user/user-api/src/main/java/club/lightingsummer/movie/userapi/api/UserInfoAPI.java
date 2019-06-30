@@ -2,6 +2,7 @@ package club.lightingsummer.movie.userapi.api;
 
 import club.lightingsummer.movie.userapi.bo.CommonResponse;
 import club.lightingsummer.movie.userapi.bo.UserInfoModel;
+import club.lightingsummer.movie.userapi.bo.UserModel;
 
 /**
  * @author     ：lightingSummer
@@ -10,10 +11,10 @@ import club.lightingsummer.movie.userapi.bo.UserInfoModel;
  */
 public interface UserInfoAPI {
 
-    CommonResponse checkUsername(String username);
+    CommonResponse<Boolean> checkName(String userName);
 
-    CommonResponse getUserInfo(int uuid);
+    CommonResponse<UserInfoModel> getUserInfo(int uuid);
 
-    CommonResponse updateUserInfo(UserInfoModel userInfoModel);
+    CommonResponse<UserInfoModel> updateUserInfo(UserInfoModel userInfoModel);
 
 }

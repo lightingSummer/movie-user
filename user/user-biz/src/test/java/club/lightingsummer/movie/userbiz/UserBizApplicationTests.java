@@ -1,10 +1,9 @@
 package club.lightingsummer.movie.userbiz;
 
+import club.lightingsummer.movie.userapi.api.UserInfoAPI;
 import club.lightingsummer.movie.userapi.api.UserLoginAPI;
 import club.lightingsummer.movie.userapi.bo.CommonResponse;
-import club.lightingsummer.movie.userapi.bo.UserInfoModel;
-import club.lightingsummer.movie.userapi.po.User;
-import club.lightingsummer.movie.userbiz.api.UserLoginAPIImpl;
+import club.lightingsummer.movie.userapi.bo.UserModel;
 import club.lightingsummer.movie.userdal.dao.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,35 +17,49 @@ public class UserBizApplicationTests {
 
     @Autowired private UserMapper userMapper;
     @Autowired private UserLoginAPI userLoginAPI;
+    @Autowired private UserInfoAPI userInfoAPI;
 
     @Test
     public void contextLoads() {
     }
 
     @Test
-    public void loginTest(){
+    public void registerTest(){
 
         /*
-        User userInfoModel = new User();
-        userInfoModel.setUserPwd("123");
-        userInfoModel.setUserPhone("123");
-        userInfoModel.setUserName("夏之");
-        userInfoModel.setEmail("11@qq.com");
-        userInfoModel.setAddress("111");
-        userInfoModel.setSalt("asddf");
-        userMapper.insertSelective(userInfoModel);
+        User userModel = new User();
+        userModel.setUserPwd("123");
+        userModel.setUserPhone("123");
+        userModel.setUserName("夏之");
+        userModel.setEmail("11@qq.com");
+        userModel.setAddress("111");
+        userModel.setSalt("asddf");
+        userMapper.insertSelective(userModel);
         */
 
-        UserInfoModel userInfoModel = new UserInfoModel();
-        userInfoModel.setUserPwd("123");
-        userInfoModel.setUserPhone("123");
-        userInfoModel.setUserName("夏之");
-        userInfoModel.setEmail("11@qq.com");
-        userInfoModel.setAddress("111");
-        CommonResponse commonResponse = userLoginAPI.register(userInfoModel);
+        UserModel userModel = new UserModel();
+        userModel.setUserPwd("123");
+        userModel.setUserPhone("123");
+        userModel.setUserName("夏之");
+        userModel.setEmail("11@qq.com");
+        userModel.setAddress("111");
+        CommonResponse commonResponse = userLoginAPI.register(userModel);
         System.out.println(commonResponse.getStatus()+commonResponse.getMsg());
 
 
+    }
+
+
+    @Test
+    public void loginTest(){
+        CommonResponse commonResponse = userLoginAPI.login("夏之","123");
+        System.out.println(commonResponse);
+    }
+
+    @Test
+    public void userInfoTest(){
+        CommonResponse commonResponse = userInfoAPI.getUserInfo(2);
+        System.out.println(commonResponse);
     }
 
 }

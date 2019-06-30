@@ -2,7 +2,7 @@ package club.lightingsummer.movie.userbiz.api;
 
 import club.lightingsummer.movie.userapi.api.UserLoginAPI;
 import club.lightingsummer.movie.userapi.bo.CommonResponse;
-import club.lightingsummer.movie.userapi.bo.UserInfoModel;
+import club.lightingsummer.movie.userapi.bo.UserModel;
 import club.lightingsummer.movie.userapi.enums.ResponseStatus;
 import club.lightingsummer.movie.userapi.po.User;
 import club.lightingsummer.movie.userbiz.utils.MD5Util;
@@ -23,7 +23,7 @@ import java.util.UUID;
  * @description：
  */
 @Component
-@Service(interfaceClass = UserLoginAPI.class,loadbalance = "roundrobin")
+@Service(interfaceClass = UserLoginAPI.class, loadbalance = "roundrobin")
 public class UserLoginAPIImpl implements UserLoginAPI {
     private static final Logger logger = LoggerFactory.getLogger(UserLoginAPIImpl.class);
 
@@ -31,36 +31,49 @@ public class UserLoginAPIImpl implements UserLoginAPI {
     private UserService userService;
 
     @Override
-    public CommonResponse login(String Name, String password) {
-        return null;
+    public CommonResponse login(String userName, String password) {
+        CommonResponse commonResponse = CommonResponse.success();
+        if (userName == null || password == null
+                || StringUtils.isBlank(userName)
+                || StringUtils.isBlank(password)) {
+            return CommonResponse.fail(ResponseStatus.PARAM_LACK);
+        }
+        User user = userService.getUserInfoByName(userName);
+        if (user == null) {
+            return CommonResponse.fail(ResponseStatus.USER_NOT_EXIT);
+        }
+        if (!password.equals(MD5Util.MD5(password + user.getSalt()))) {
+            return CommonResponse.fail(ResponseStatus.USER_PASSWORD_WRONG);
+        }
+        return commonResponse;
     }
 
     /**
      * @author: lightingSummer
      * @date: 2019/6/29 0029
      * @description: 用户注册接口
-     * @param userInfoModel
+     * @param userModel
      * @return club.lightingsummer.movie.userapi.bo.CommonResponse
      */
     @Override
-    public CommonResponse register(UserInfoModel userInfoModel) {
+    public CommonResponse register(UserModel userModel) {
         CommonResponse commonResponse = CommonResponse.success();
-        if (userInfoModel.getUserName() == null || userInfoModel.getUserPwd() == null
-                || StringUtils.isBlank(userInfoModel.getUserName())
-                || StringUtils.isBlank(userInfoModel.getUserPwd())) {
+        if (userModel.getUserName() == null || userModel.getUserPwd() == null
+                || StringUtils.isBlank(userModel.getUserName())
+                || StringUtils.isBlank(userModel.getUserPwd())) {
             return CommonResponse.fail(ResponseStatus.PARAM_LACK);
         }
-        User exitUser = userService.getUserInfoByName(userInfoModel.getUserName());
+        User exitUser = userService.getUserInfoByName(userModel.getUserName());
         if (exitUser != null) {
             return CommonResponse.fail("用户已存在");
         }
         try {
             User user = new User();
-            BeanUtils.copyProperties(userInfoModel, user);
+            BeanUtils.copyProperties(userModel, user);
             String salt = UUID.randomUUID().toString().substring(0, 5);
             user.setSalt(salt);
-            user.setUserPwd(MD5Util.MD5(user.getUserPwd()+salt));
-            if(userService.addUser(user)){
+            user.setUserPwd(MD5Util.MD5(user.getUserPwd() + salt));
+            if (userService.addUser(user)) {
                 return commonResponse;
             }
         } catch (Exception e) {
