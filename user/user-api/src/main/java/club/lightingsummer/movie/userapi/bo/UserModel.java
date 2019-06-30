@@ -2,13 +2,15 @@ package club.lightingsummer.movie.userapi.bo;
 
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * @author     ：lightingSummer
  * @date       ：2019/6/28 0028
  * @description：
  */
 @ToString
-public class UserModel {
+public class UserModel implements Serializable {
 
     private String userName;
     private String userPwd;

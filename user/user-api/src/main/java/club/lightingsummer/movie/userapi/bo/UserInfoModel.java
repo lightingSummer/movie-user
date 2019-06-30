@@ -2,6 +2,7 @@ package club.lightingsummer.movie.userapi.bo;
 
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 
 @ToString
-public class UserInfoModel {
+public class UserInfoModel implements Serializable {
     private Integer uuid;
 
     private String userName;
