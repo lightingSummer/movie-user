@@ -13,7 +13,7 @@ public interface UserService {
 
     User getUserInfoByName(String userName);
 
-    boolean addUser(User user);
+    int addUser(User user);
 
     boolean updateUserInfo(User user);
 }

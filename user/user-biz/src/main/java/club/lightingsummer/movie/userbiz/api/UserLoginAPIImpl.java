@@ -5,6 +5,7 @@ import club.lightingsummer.movie.userapi.bo.CommonResponse;
 import club.lightingsummer.movie.userapi.bo.UserModel;
 import club.lightingsummer.movie.userapi.enums.ResponseStatus;
 import club.lightingsummer.movie.userapi.po.User;
+import club.lightingsummer.movie.userbiz.utils.JedisAdapter;
 import club.lightingsummer.movie.userbiz.utils.MD5Util;
 import club.lightingsummer.movie.usersal.service.UserService;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -29,6 +30,8 @@ public class UserLoginAPIImpl implements UserLoginAPI {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JedisAdapter jedisAdapter;
 
     @Override
     public CommonResponse login(String userName, String password) {
@@ -57,7 +60,7 @@ public class UserLoginAPIImpl implements UserLoginAPI {
      */
     @Override
     public CommonResponse register(UserModel userModel) {
-        CommonResponse commonResponse = CommonResponse.success();
+        CommonResponse<String> commonResponse = CommonResponse.success(String.class);
         if (userModel.getUserName() == null || userModel.getUserPwd() == null
                 || StringUtils.isBlank(userModel.getUserName())
                 || StringUtils.isBlank(userModel.getUserPwd())) {
@@ -73,7 +76,12 @@ public class UserLoginAPIImpl implements UserLoginAPI {
             String salt = UUID.randomUUID().toString().substring(0, 5);
             user.setSalt(salt);
             user.setUserPwd(MD5Util.MD5(user.getUserPwd() + salt));
-            if (userService.addUser(user)) {
+            int uuid = userService.addUser(user);
+            if (uuid != 0) {
+                String ticket = UUID.randomUUID().toString().replaceAll("-", "");
+                jedisAdapter.set(ticket, uuid + "");
+                jedisAdapter.expire(ticket);
+                commonResponse.setData(ticket);
                 return commonResponse;
             }
         } catch (Exception e) {

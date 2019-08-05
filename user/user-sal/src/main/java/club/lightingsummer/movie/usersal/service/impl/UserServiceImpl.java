@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser(User user) {
-        return userMapper.insertSelective(user) == 1;
+    public int addUser(User user) {
+        return userMapper.insertSelective(user)>0?user.getUuid():0;
     }
 
     @Override

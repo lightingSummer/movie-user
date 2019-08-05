@@ -5,6 +5,7 @@ import club.lightingsummer.movie.userapi.bo.CommonResponse;
 import club.lightingsummer.movie.userapi.bo.UserInfoModel;
 import club.lightingsummer.movie.userapi.enums.ResponseStatus;
 import club.lightingsummer.movie.userapi.po.User;
+import club.lightingsummer.movie.userbiz.utils.JedisAdapter;
 import club.lightingsummer.movie.usersal.service.UserService;
 import com.alibaba.dubbo.config.annotation.Service;
 import org.slf4j.Logger;
@@ -26,6 +27,8 @@ public class UserInfoAPIImpl implements UserInfoAPI {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JedisAdapter jedisAdapter;
 
     /**
      * @author: lightingSummer
@@ -98,5 +101,25 @@ public class UserInfoAPIImpl implements UserInfoAPI {
             return CommonResponse.fail(UserInfoModel.class, ResponseStatus.SYSTEM_ERROR);
         }
         return commonResponse;
+    }
+
+    /**
+     * @author: lightingSummer
+     * @date: 2019/8/5 0005
+     * @description: 根据cookie查询userid
+     */
+    @Override
+    public CommonResponse<Integer> getUserIdByTicket(String ticket) {
+        try {
+            CommonResponse<Integer> commonResponse = CommonResponse.success(Integer.class);
+            String userId = jedisAdapter.get(ticket);
+            if (userId != null) {
+                commonResponse.setData(Integer.valueOf(userId));
+            }
+            return commonResponse;
+        } catch (NumberFormatException e) {
+            logger.error("userId查询失败");
+            return CommonResponse.fail(Integer.class, ResponseStatus.SYSTEM_ERROR);
+        }
     }
 }
