@@ -17,4 +17,6 @@ public interface UserInfoAPI {
 
     CommonResponse<UserInfoModel> updateUserInfo(UserInfoModel userInfoModel);
 
+    CommonResponse<Integer> getUserIdByTicket(String ticket);
+
 }
