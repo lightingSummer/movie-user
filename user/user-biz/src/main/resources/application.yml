@@ -20,3 +20,8 @@ jedis:
   connectionTimeout: 5000
   port: 6379
   password: 123@456
+logging:
+  level:
+    club:
+      lightingsummer:
+        movie: debug

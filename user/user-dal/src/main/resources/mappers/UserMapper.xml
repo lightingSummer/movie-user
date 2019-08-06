@@ -46,7 +46,7 @@
       #{beginTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{salt,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="club.lightingsummer.movie.userapi.po.User">
+  <insert id="insertSelective" parameterType="club.lightingsummer.movie.userapi.po.User" useGeneratedKeys="true" keyProperty="uuid">
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
