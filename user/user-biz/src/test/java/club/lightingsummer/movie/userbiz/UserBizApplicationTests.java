@@ -4,6 +4,7 @@ import club.lightingsummer.movie.userapi.api.UserInfoAPI;
 import club.lightingsummer.movie.userapi.api.UserLoginAPI;
 import club.lightingsummer.movie.userapi.bo.CommonResponse;
 import club.lightingsummer.movie.userapi.bo.UserModel;
+import club.lightingsummer.movie.userbiz.utils.JedisAdapter;
 import club.lightingsummer.movie.userdal.dao.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,20 +12,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserBizApplicationTests {
 
-    @Autowired private UserMapper userMapper;
-    @Autowired private UserLoginAPI userLoginAPI;
-    @Autowired private UserInfoAPI userInfoAPI;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserLoginAPI userLoginAPI;
+    @Autowired
+    private UserInfoAPI userInfoAPI;
+    @Autowired
+    private JedisAdapter jedisAdapter;
 
     @Test
     public void contextLoads() {
     }
 
     @Test
-    public void registerTest(){
+    public void registerTest() {
 
         /*
         User userModel = new User();
@@ -38,28 +46,34 @@ public class UserBizApplicationTests {
         */
 
         UserModel userModel = new UserModel();
-        userModel.setUserPwd("123");
-        userModel.setUserPhone("123");
-        userModel.setUserName("夏之");
-        userModel.setEmail("11@qq.com");
-        userModel.setAddress("111");
+        //userModel.setUserPwd("123");
+        //userModel.setUserPhone("123");
+        //userModel.setUserName("夏之");
+        //userModel.setEmail("11@qq.com");
+        //userModel.setAddress("111");
         CommonResponse commonResponse = userLoginAPI.register(userModel);
-        System.out.println(commonResponse.getStatus()+commonResponse.getMsg());
+        System.out.println(commonResponse.getStatus() + commonResponse.getMsg());
 
 
     }
 
 
     @Test
-    public void loginTest(){
-        CommonResponse commonResponse = userLoginAPI.login("夏之","123");
+    public void loginTest() {
+        CommonResponse commonResponse = userLoginAPI.login("夏之", "123");
         System.out.println(commonResponse);
     }
 
     @Test
-    public void userInfoTest(){
+    public void userInfoTest() {
         CommonResponse commonResponse = userInfoAPI.getUserInfo(2);
         System.out.println(commonResponse);
     }
 
+    @Test
+    public void jedisTest() {
+        String ticket = UUID.randomUUID().toString().replaceAll("-", "");
+        jedisAdapter.set(ticket, 1 + "");
+        jedisAdapter.expire(ticket);
+    }
 }

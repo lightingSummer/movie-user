@@ -33,6 +33,27 @@ public class User {
 
     private String salt;
 
+    public User() {
+    }
+
+    public User(Integer uuid, String userName, String userPwd, String nickName, Integer userSex, String birthday, String email, String userPhone, String address, String headUrl, String biography, Integer lifeState, Date beginTime, Date updateTime, String salt) {
+        this.uuid = uuid;
+        this.userName = userName;
+        this.userPwd = userPwd;
+        this.nickName = nickName;
+        this.userSex = userSex;
+        this.birthday = birthday;
+        this.email = email;
+        this.userPhone = userPhone;
+        this.address = address;
+        this.headUrl = headUrl;
+        this.biography = biography;
+        this.lifeState = lifeState;
+        this.beginTime = beginTime;
+        this.updateTime = updateTime;
+        this.salt = salt;
+    }
+
     public Integer getUuid() {
         return uuid;
     }
