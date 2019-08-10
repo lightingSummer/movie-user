@@ -69,7 +69,7 @@ public class JedisAdapter implements InitializingBean {
         Jedis jedis = null;
         try {
             jedis = getJedis();
-            jedis.expire(key, 60 * 24 * 7);
+            jedis.expire(key, 60 * 60 * 24 * 7);
             return true;
         } catch (Exception e) {
             logger.error("Jedis get exception : " + e.getMessage());
