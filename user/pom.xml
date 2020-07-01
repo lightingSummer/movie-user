@@ -31,7 +31,7 @@
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <lombok.version>1.18.8</lombok.version>
         <mybatis.version>1.3.0</mybatis.version>
-        <mysql.version>5.1.38</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <apache-common.version>3.9</apache-common.version>
         <dubbo.version>2.0.0</dubbo.version>
         <zk-client.version>0.9</zk-client.version>
